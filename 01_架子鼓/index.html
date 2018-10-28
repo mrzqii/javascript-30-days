@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>架子鼓</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+     
+
+        <ul class="container">
+            <li data-key="65">
+                <p>A</p>
+                <div>BOOM</div>
+            </li>
+            <li data-key="83">
+                <p>S</p>
+                <div>CLAP</div>
+            </li>
+            <li data-key="68">
+                <p>D</p>
+                <div>HIHAT</div>
+            </li>
+            <li data-key="70">
+                <p>F</p>
+                <div>KICK</div>
+            </li>
+            <li data-key="71">
+                <p>G</p>
+                <div>OPENHAT</div>
+            </li>
+            <li data-key="72">
+                <p>H</p>
+                <div>RIDE</div>
+            </li>
+            <li data-key="74">
+                <p>J</p>
+                <div>SNARE</div>
+            </li>
+            <li data-key="75">
+                <p>K</p>
+                <div>TINK</div>
+            </li>
+            <li data-key="76">
+                <p>L</p>
+                <div>TOM</div>
+            </li>
+        </ul>
+        <div>
+            <audio src="./sounds/boom.wav" data-key="65"></audio>
+            <audio src="./sounds/clap.wav" data-key="83"></audio>
+            <audio src="./sounds/hihat.wav" data-key="68"></audio>
+            <audio src="./sounds/kick.wav" data-key="70"></audio>
+            <audio src="./sounds/openhat.wav" data-key="71"></audio>
+            <audio src="./sounds/ride.wav" data-key="72"></audio>
+            <audio src="./sounds/snare.wav" data-key="74"></audio>
+            <audio src="./sounds/tink.wav" data-key="75"></audio>
+            <audio src="./sounds/tom.wav" data-key="76"></audio>
+        </div>
+        <!-- JS知识点：
+        1. 事件监听addEventListener的使用
+        2. keydown事件, 以及里面e.keyCode
+        3. transitionend事件以及, 里面e.propertyName
+        4. audio标签的play()方法, 和currentTime属性
+        5. Array.from可以把伪数组转换为数组
+        布局方面：
+        1. box-shadow的使用
+        2. 灵活的rem使用
+        错误纠正：
+        1. 不要在事件监听函数里面再次注册事件, 这样的话会重复注册很多的事件 -->
+     
+    <script>
+        // document.addEventListener('keydown',function(e){
+        //     var keycode = e.keyCode
+        //     var node = document.querySelector('li[data-key="'+keycode+'"]')
+        //     if(!node) return
+        //     node.classList.add('active')
+
+        //     var audio = document.querySelector('audio[data-key="'+keycode+'"]')
+             
+        //     audio.currentTime = 0
+        //     audio.play()
+        //     node.addEventListener('transitionend', function(e){
+        //         console.log('1:',1);
+        //         if(e.propertyName !== 'transform'){
+        //             return
+        //         }
+        //         this.classList.remove('active')
+        //     })
+        // })
+        document.addEventListener('keydown',kick)
+        
+        var arrKey = Array.from(document.querySelectorAll('li'))
+
+        arrKey.forEach(item => {
+            item.addEventListener('transitionend',endKick)
+        })
+
+        function endKick(e){
+            if(e.propertyName !== 'transform') return
+            this.classList.remove('active')
+        }
+
+        function kick(e){
+            var keycode = e.keyCode
+            var node = document.querySelector('li[data-key="'+keycode+'"]')
+            var audio = document.querySelector('audio[data-key="'+keycode+'"]')
+            if(!node) return
+            node.classList.add('active')
+            audio.currentTime = 0
+            audio.play()
+        }
+
+    
+    </script>
+</body>
+</html>
