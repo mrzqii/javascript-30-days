@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        html,body{
+            background: #018DED url(http://unsplash.it/1500/1000?image=881&blur=50);
+            background-size: cover;
+            font-size: 10px;
+        }
+        body{
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .clock{
+            position: relative;
+            width: 30rem;
+            height: 30rem;
+            border-radius: 50%;
+            border: 2rem solid #fff;
+            box-shadow: 
+                0 0 0 4px rgba(0,0,0,0.1),
+                inset 0 0 0 3px #EFEFEF,
+                inset 0 0 10px black,
+                0 0 10px rgba(0,0,0,0.2);
+        }
+        .clock-face{
+            width: 100%;
+            height: 100%;
+            transform: translateY(-3px)
+        }
+        .hour,.min,.second{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 6px;
+            border-radius: 4px;
+            background: #333;
+            transition: all 0.05s;
+            transform: rotate(-90deg);
+            transform-origin: 0% 50%;
+            transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+        }
+        .hour{
+            width: 40%;
+            background: bisque;
+        }
+        .min{
+            width: 43%;
+        }
+        .second{
+            width: 47%;
+            background: yellowgreen;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock">
+        <div class="clock-face">
+            <div class="hour"></div>
+            <div class="min"></div>
+            <div class="second"></div>
+        </div>
+    </div>
+    <!-- JS知识点：
+    1. 先把getDate()运行一次, 可以优化效果
+    CSS知识点:
+    1. transition-timing-function 属性规定过渡效果的速度曲线
+    2. transform-origin的设置, 可参考https://blog.csdn.net/u011848617/article/details/79039365 -->
+    <script>
+        var hourDiv = document.querySelector('.hour')
+        var minDiv = document.querySelector('.min')
+        var secondDiv = document.querySelector('.second')
+
+        function getDate(){
+            var date = new Date()
+            var hour = date.getHours()
+            var min = date.getMinutes()
+            var second = date.getSeconds()
+            
+            secondDiv.style.transform = `rotate(${second/60 *360 - 90}deg)`
+            minDiv.style.transform = `rotate(${min/60 *360 - 90}deg)`
+            hourDiv.style.transform = `rotate(${hour/12 *360 - 90}deg)`
+        }
+        getDate()
+        setInterval(getDate, 1000)
+    </script>
+</body>
+</html>
